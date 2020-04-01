@@ -1,0 +1,22 @@
+use std::cmp::Ordering;
+
+#[derive(Debug, PartialEq)]
+pub enum Comparison {
+    Equal,
+    Sublist,
+    Superlist,
+    Unequal,
+}
+
+fn is_superlist_of<T: PartialEq>(list_a: &[T], list_b: &[T]) -> bool {
+    list_b.is_empty() || list_a.windows(list_b.len()).any(|w| w == list_b)
+}
+
+pub fn sublist<T: PartialEq>(first_list: &[T], second_list: &[T]) -> Comparison {
+    match first_list.len().cmp(&second_list.len()) {
+        Ordering::Greater if is_superlist_of(first_list, second_list) => Comparison::Superlist,
+        Ordering::Equal if first_list == second_list => Comparison::Equal,
+        Ordering::Less if is_superlist_of(second_list, first_list) => Comparison::Sublist,
+        _ => Comparison::Unequal,
+    }
+}

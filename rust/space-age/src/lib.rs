@@ -16,38 +16,20 @@ pub trait Planet {
     }
 }
 
-pub struct Mercury;
-pub struct Venus;
-pub struct Earth;
-pub struct Mars;
-pub struct Jupiter;
-pub struct Saturn;
-pub struct Uranus;
-pub struct Neptune;
-
-impl Planet for Earth {
-    const FACTOR: f64 = 1.0;
+macro_rules! planet {
+    ($name: ident, $factor: expr) => {
+        pub struct $name;
+        impl Planet for $name {
+            const FACTOR: f64 = $factor;
+        }
+    };
 }
 
-impl Planet for Mercury {
-    const FACTOR: f64 = 0.240_846_7;
-}
-impl Planet for Venus {
-    const FACTOR: f64 = 0.615_197_26;
-}
-
-impl Planet for Mars {
-    const FACTOR: f64 = 1.880_815_8;
-}
-impl Planet for Jupiter {
-    const FACTOR: f64 = 11.862_615;
-}
-impl Planet for Saturn {
-    const FACTOR: f64 = 29.447_498;
-}
-impl Planet for Uranus {
-    const FACTOR: f64 = 84.016_846;
-}
-impl Planet for Neptune {
-    const FACTOR: f64 = 164.79132;
-}
+planet!(Mercury, 0.240_846_7);
+planet!(Venus, 0.615_197_26);
+planet!(Earth, 1.0);
+planet!(Mars, 1.880_815_8);
+planet!(Jupiter, 11.862_615);
+planet!(Saturn, 29.447_498);
+planet!(Uranus, 84.016_846);
+planet!(Neptune, 164.79132);
